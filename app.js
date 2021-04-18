@@ -14,7 +14,41 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+//Database Session
+const store = new MongoDBStore({
+  uri :"mongodb://127.0.0.1:27017/quora", 
+  collection : "sessions"
+})
 
+app.use(session({
+	cookie : {
+		maxAge : 864e5
+	} , 
+	secret : process.env.SESSION_SECRET ,   
+  resave : false , 
+  store : store , 
+	saveUninitialized : true , 
+	unset : "destroy" , 
+	genid : (req) => {
+		return req.url
+	}
+}))
+
+// Database Connection
+const CONFIG = { 
+	uri : "mongodb://127.0.0.1:27017/quora" , 
+  OPTIONS : { 
+    useNewUrlParser : true , 
+    useCreateIndex : true , 
+    poolSize : 10 , 
+    keepAlive : true , 
+    useUnifiedTopology : true , 
+    keepAliveInitialDelay : 3e6
+  }
+}
+
+mongoose.connect(CONFIG.uri, CONFIG.OPTIONS) 
+let db = mongoose.connection
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
