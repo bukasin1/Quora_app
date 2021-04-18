@@ -1,0 +1,210 @@
+<%- include('includes/header') -%>
+    <body>
+        <% if(locals.user){ %>
+            <%- include('includes/navbar') -%>
+        <% }else{ %>
+            <header id="header">
+
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <h3>Welcome <b>Guest</b> to <span class="logo1"><a href="/" class="logo1"><i class="fa fa-quora"></i>uest-Land</a></span></h3>
+                            <h1> The Social Q&A Community</h1>
+                            <p>The question and answer site designed to help people, to help each other: To ask, to ask, to learn, to share, to grow.</p>
+                            
+                        </div>
+                    </div>
+        
+                    <% if(locals.success) { %>
+                        <% if(success.length != 0) { %>
+                            <div class="alert alert-success alert-dismissible fade-in text-center" role="alert">
+                                <button class="close" type="button" data-dismiss="alert" aria-label="close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <span><%= success %></span>
+                                <p class="mt-3"><span class="green-btn"><a href="/login" class="green-btn">Sign in</a></span> to make a contribution or <span class="green-btn"><a href="/confirm-email" class="green-btn" data-toggle="modal" data-target="#completeModal">Sign Up</a></span> if not registered yet</p>
+                                <div class="modal fade" id="completeModal" tabindex="-1" role="dialog" aria-labelledby="completeLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="completeLabel">Are you sure?</h5> 
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span> 
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" class="form-horizontal">
+                                                    <div>
+                                                        <h3 class="text-center">Enter your email</h3>
+                                                        <input type="email" class="form-control map-form filler" name="email" id="email" />
+                                                    </div>
+                                                
+                                                    <div class="text-center mt-3">
+                                                        <input type="submit" class="main-btn map-form" id="submit" value="Submit">
+                                                    </div>
+                                                    
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                        <% } %> 
+                    <% } %>
+                </div>
+            </header>
+        <% } %>
+        
+    
+        <div class="container pt-4 body">
+            <div class="row justify-content-center">
+                <div class="col-md-8 Questions">
+                    
+                    <% let month = question.date.getMonth() + 1 %>
+                    <% let realDate = question.date.getDate() + '/' + month + '/' + question.date.getFullYear() %>
+                    <% let fullName = use.lastName + ' ' + use.firstName %>
+                    <% let profileUrl = "/profile/" + use._id %>
+                    <p> Created by <span class="a"><a href="<%= profileUrl %>" class="a"> 
+                        <% if (use.profilePhoto) { %>
+                            <% let imageUrl = "/profile/" + use.profilePhoto %>
+                            <img alt="Picture" src="<%= imageUrl %>" class="rounded-circle" width="25" height="25" />
+                        <% }else{ %>
+                            <% if (use.gender === 'Male') { %>
+                                <img alt="Picture" src="/profile/default-avatar.png" class="rounded-circle" width="25" height="25" />
+                            <% }else{ %>
+                                <img alt="Picture" src="/profile/female-avatar.png" class="rounded-circle" width="25" height="25" />
+                            <% } %>
+                        <% } %>
+                        <%= fullName %></a></span> on <%= realDate %>
+                    </p>
+                    <% let link = "/" + use.username + "/" + question._id  %>
+                    <h4 class="h4"><a href="<%= link %>" class="h4"><%= question.title %></a></h4>
+                    <p><%= question.details %></p>  <span><a href="#a" class="green-btn mb-2">Comment</a></span>
+
+                    <div class="card">
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="text-center mb-5"><h4>Contributions made</h4></div>
+                                    <% if(locals.question.answers.length > 0){ %>
+                                        <% let reverseAnswers = [] %>
+                                        <% let j = question.answers.length - 1 %>
+                                        <% for (let i = 0; i < question.answers.length; i++) { %>
+                                            <% reverseAnswers[i] = question.answers[j] %>
+                                            <% j -= 1 %>
+                                        <% } %>
+                                        <% for(let i = 0; i < reverseAnswers.length; i++){ %>
+                                            <div class="todo-box mb-1">
+                                                    <div class="float-left">
+                                                        <% let fullName = 'test' %>
+                                                        <% let user2 = 'test' %>
+                                                        <% USERS.forEach(USER => { %>
+                                                            <% if(USER.email === reverseAnswers[i].user){ %>
+                                                                <% fullName = USER.lastName + ' ' + USER.firstName %>
+                                                                <% user2 = USER %>
+                                                            <% } %>
+                                                        <% }) %>
+                                                        <% let profileUrl = "/profile/" + user2._id %>
+                                                        <h5><span class="a"><a href="<%= profileUrl %>" class="a">
+                                                            <% if (user2.profilePhoto) { %>
+                                                                <% let imageUrl = "/profile/" + use.profilePhoto %>
+                                                                <img alt="Picture" src="<%= imageUrl %>" class="rounded-circle" width="25" height="25" />
+                                                            <% }else{ %>
+                                                                <% if (user2.gender === 'Male') { %>
+                                                                    <img alt="Picture" src="/profile/default-avatar.png" class="rounded-circle" width="25" height="25" />
+                                                                <% }else{ %>
+                                                                    <img alt="Picture" src="/profile/female-avatar.png" class="rounded-circle" width="25" height="25" />
+                                                                <% } %>
+                                                            <% } %>
+                                                            <%= fullName %></a></span> <%= realDate %>
+                                                        </h5>
+                                                        
+                                                        <p><%= reverseAnswers[i].comment %></p>
+                                                    </div>
+                                                    
+                                                    <% let deleteAnswer = "/" + user2.username + "/" + question._id + "/" + reverseAnswers[i]._id + "/delete" %>
+                                                    <div class="float-right">
+                                                        <a href="<%= deleteAnswer %>" class="float-right orange-btn">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                            </div>
+                                        <% } %>
+                                    <% }else{ %>
+                                        <h4 class="mt-5">No contributions have been made</h4>
+                                    <% } %>
+                                
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-2 mb-3" id="a">
+                        <form action="#" method="POST">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="details" class="label">Make a contribution</label>
+                                    <textarea class="comment" cols="30" rows="10" name="details" id="details"></textarea>
+                                </div>
+                                <hr>
+                                <input type="submit" class="main-btn submitCom" id="submit" value="submit">
+                            </div>
+                        </form>
+                        
+                    </div>
+                   
+                </div>
+    
+                <div class="col-md-4 mb-4">
+                    <div class="col-md-12 categories">
+                        <div class="category-head" >
+                            <span class="all_topics"> All categories</span></br>
+                            <span > <%= questions.length%> Questions</span>
+                        </div>
+                        <% categories.map(category =>{ %>
+                            <div class="all_list">
+                                <% let categoryUrl = '/questions/' + category.name %>
+                                <a class="list_cap" href="<%= categoryUrl%>">
+                                <% if(category.name === "Technology"){ %>
+                                    <img src="/images/tech.jpg" class="float-left">
+                                <% }else if(category.name === "Science"){ %>
+                                    <img src="/images/science.jpg" class="float-left">
+                                <% }else if(category.name === "Health"){ %>
+                                    <img src="/images/health.jpg" class="float-left">
+                                <% }else if(category.name === "Education"){ %>
+                                    <img src="/images/education.jpg" class="float-left">
+                                <% }else if(category.name === "Entertainment"){ %>
+                                    <img src="/images/entertainment.jpg" class="float-left">
+                                <% }else if(category.name === "Investing"){ %>
+                                    <img src="/images/investing.jpg" class="float-left">
+                                <% }else if(category.name === "Others"){ %>
+                                    <img src="/images/post1.jpg" class="float-left">
+                                <% } %>
+                                
+                                <div class="list_content float-left ml-3 mt-3">
+                                    <span class="a"><%= category.name%></span> </br>
+                                    <% let categoryQuestions = [] %>
+                                    <% questions.map(question => { %>
+                                        <% if(question.category === category.name){ %>
+                                            <% categoryQuestions.push(question) %>
+                                        <% } %>
+                                    <% }) %>
+                                    <span class="topic_counter" href="#"> <%= categoryQuestions.length%> Questions</span> </br>
+                                </div>
+                                </a>
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr>
+                        <% }) %>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+        </div>
+            
+        <script src="/javascripts/validComment.js"></script>           
+        <%- include('includes/footer') -%>
+</body>
+</html>
+                

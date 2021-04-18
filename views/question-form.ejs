@@ -1,0 +1,44 @@
+<%- include('includes/header') -%>
+    <body>
+        <%- include('includes/navbar') -%>
+    
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <form action="#" method="POST" class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="title" class="label">Question title</label>
+                                <input type="text" class="form-control map-form filler" name="title" id="title" />
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="category" class="label">Category</label>
+                                <select class="form-control custom-select map-form" name="category" id="category">
+                                    <option value="" selected disabled="disabled">--------</option>
+                                    <% categories.map(category => { %>
+                                        <option><%= category.name %></option>
+                                    <% }) %>
+                                </select>
+                                <div class="d-none mt-2 one">
+                                    <label for="category" class="label">Enter category suggestion:</label>
+                                    <input type="text" class="one form-control map-form" name="category2" id="title" />
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="details" class="label">Question details</label>
+                                <textarea class="map-form" cols="30" rows="10" name="details" id="details"></textarea>
+                            </div>
+                            <hr>
+                            <input type="submit" class="main-btn map-form" id="submit" value="Create">
+                        </div>
+                    </form>
+                </div>
+            </div>
+    
+        </div>
+            
+        <script src="/javascripts/question.js" type="module"></script>            
+        <%- include('includes/footer') -%>
+</body>
+</html>
+                

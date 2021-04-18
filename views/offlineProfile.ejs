@@ -1,0 +1,62 @@
+<%- include('includes/header') -%>
+    <body>
+        <% if(locals.user1){ %>
+            <%- include('includes/navbar') -%>
+        <% }else{ %>
+            <%- include('includes/offlineNav') -%>
+        <% } %>
+    
+        <div class="container pt-4 body">
+            <form method="post" enctype="multipart/form-data">
+                <h4>Details :</h4>
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <% if (locals.user.profilePhoto) { %>
+                            <% let imageUrl = "/profile/" + user.profilePhoto %>
+                            <img class="profile-image" alt="Picture" src="<%= imageUrl %>" />
+                        <% }else{ %>
+                            <% if (locals.user.gender === 'Male') { %>
+                                <img class="profile-image" alt="Picture" src="/profile/default-avatar.png" />
+                            <% }else{ %>
+                                <img class="profile-image" alt="Picture" src="/profile/female-avatar.png" />
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="label">Name :</label>
+                                <h4><%= user.lastName %> <%= user.firstName %></h4>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="label">Mobile Number :</label>
+                                <h4><%= user.mobile %></h4>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="gender" class="label">Gender :</label>
+                                <h4><%= user.gender %></h4>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="state" class="label">State : </label>
+                                <h4><%= user.state %></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <% if(locals.message) { %>
+                            <p> <%= message %>
+                    <% }%>
+                </div>
+            </form>
+    
+        </div>
+            
+        <script src="/javascripts/profile.js" type="module"></script> 
+        <script src="/javascripts/uploads.js"></script>          
+        <%- include('includes/footer') -%>
+</body>
+</html>
+                

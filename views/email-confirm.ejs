@@ -1,0 +1,149 @@
+<%- include('includes/header') -%>
+<body>
+    <header id="header">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <h3>Welcome <b>Guest</b> to <span class="logo1"><a href="/" class="logo1"><i class="fa fa-quora"></i>uest-Land</a></span></h3>
+                    <h1> The Social Q&A Community</h1>
+                    <p>The question and answer site designed to help people, to help each other: To ask, to ask, to learn, to share, to grow.</p>
+                    <p>Are you a member already, <span class="green-btn"><a href="/login" class="green-btn">Sign in</a></span> to ask a question, else <span class="green-btn"><a href="email-confirmation.html" class="green-btn">Sign Up</a></span></p>
+                </div>
+            </div>
+
+            <form method="POST" class="form-horizontal">
+                <div>
+                    <h3 class="text-center">Enter your email</h3>
+                    <input type="email" class="form-control map-form filler" name="email" id="email" />
+                </div>
+            
+                <div class="text-center mt-3">
+                    <input type="submit" class="main-btn map-form" id="submit" value="Submit">
+                </div>
+                
+            </form>
+
+            <% if(success) { %>
+                <% if(success.length != 0) { %>
+                    <div class="alert alert-success alert-dismissible fade-in" role="alert">
+                        <button class="close" type="button" data-dismiss="alert" aria-label="close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <span><%= success %></span>
+                    </div>  
+                <% } %> 
+            <% } %>  
+
+        </div>
+    </header>
+
+    <div class="container pt-4 body">
+        <div class="row justify-content-center">
+            <div class="col-md-8 Questions">
+                
+                <% if (locals.questions.length != 0) { %>
+                    <div class="col-md-12 Questions">
+                        
+                        <div class="text-center mb-5"><h1>Recently asked Questions</h1></div>
+                        <% let reverseQuest = [] %>
+                        <% let j = questions.length - 1 %>
+                        <% for (let i of Object.keys(questions)) { %>
+                            <% reverseQuest[i] = questions[j] %>
+                            <% j -= 1 %>
+                        <% } %>
+                        <% for (let i of Object.keys(reverseQuest)) { %>
+                            <div class="card mb-4" >
+                                <% let month = reverseQuest[i].date.getMonth() + 1 %>
+                                <% let realDate = reverseQuest[i].date.getDate() + '/' + month + '/' + reverseQuest[i].date.getFullYear() %>
+                                <!-- <% let user = USERS.find(USER => USER._id === questions[i].user) %>
+                                <% console.log(user) %> -->
+                                <% let fullName = 'test' %>
+                                <% let use = 'test' %>
+                                <% USERS.forEach(USER => { %>
+                                    <% if(USER.email === reverseQuest[i].user){ %>
+                                        <% fullName = USER.lastName + ' ' + USER.firstName %>
+                                        <% use = USER %>
+                                    <% } %>
+                                <% }) %>
+                                 
+                                <% let profileUrl = "/profile/" + use._id %>
+                                <p><span class="a"><a href="<%= profileUrl %>" class="a">
+                                    <% if (use.profilePhoto) { %>
+                                        <% let imageUrl = "/profile/" + use.profilePhoto %>
+                                        <img alt="Picture" src="<%= imageUrl %>" class="rounded-circle" width="25" height="25" />
+                                    <% }else{ %>
+                                        <% if (use.gender === 'Male') { %>
+                                            <img alt="Picture" src="/profile/default-avatar.png" class="rounded-circle" width="25" height="25" />
+                                        <% }else{ %>
+                                            <img alt="Picture" src="/profile/female-avatar.png" class="rounded-circle" width="25" height="25" />
+                                        <% } %>
+                                    <% } %>
+                                    <%= fullName %></a></span> <%= realDate %>
+                                </p>
+                                <% let link = "/" + use.username + "/" + reverseQuest[i]._id  %>
+                                <h4 class="h4"><a href="<%= link %>" class="h4"><%= reverseQuest[i].title %></a></h4>
+                                <p><%= reverseQuest[i].details %></p>
+                                
+                            <a href="<%= link %>" class="green-btn">Provide an answer</a>
+                            </div>
+                        <% } %>
+                      
+                    </div>
+                <% }else{ %>
+                    <h3 class="text-center mt-5">No Questions asked yet</h3>
+                <% } %>
+                
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="col-md-12 categories">
+                    <div class="category-head" >
+                        <span class="all_topics"> All categories</span></br>
+                        <span > <%= questions.length%> Questions</span>
+                    </div>
+                    <% categories.map(category =>{ %>
+                        <div class="all_list">
+                            <a class="list_cap" href="#">
+                            <% if(category === "Technology"){ %>
+                                <img src="images/tech.jpg" class="float-left">
+                            <% }else if(category === "Science"){ %>
+                                <img src="images/science.jpg" class="float-left">
+                            <% }else if(category === "Health"){ %>
+                                <img src="images/health.jpg" class="float-left">
+                            <% }else if(category === "Education"){ %>
+                                <img src="images/education.jpg" class="float-left">
+                            <% }else if(category === "Entertainment"){ %>
+                                <img src="images/entertainment.jpg" class="float-left">
+                            <% }else if(category === "Investing"){ %>
+                                <img src="images/investing.jpg" class="float-left">
+                            <% }else if(category === "Others"){ %>
+                                <img src="images/post1.jpg" class="float-left">
+                            <% } %>
+                            
+                            <div class="list_content float-left ml-3 mt-3">
+                                <span class="a"><%= category%></span> </br>
+                                <% let categoryQuestions = [] %>
+                                <% questions.map(question => { %>
+                                    <% if(question.category === category){ %>
+                                        <% categoryQuestions.push(question) %>
+                                    <% } %>
+                                <% }) %>
+                                <span class="topic_counter" href="#"> <%= categoryQuestions.length%> Questions</span> </br>
+                            </div>
+                            </a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr>
+                    <% }) %>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/javascripts/email.js" type="module"></script>
+    <%- include('includes/footer') -%>
+</body>
+</html>

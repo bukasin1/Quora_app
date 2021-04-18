@@ -1,0 +1,288 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background-color: rgba(247, 241, 241, 0.507);
+}
+
+a{
+  color: black;
+}
+
+.signup-bg{
+    background-color: rgb(34, 207, 106);
+}
+
+/* ----------HEADER---------- */
+#header{
+    padding: 80px 0px;
+    background: url('/images/background.png');
+}
+.logo1{
+    color: rgb(34, 207, 106);
+    font-size: 40px;
+}
+.logo1 :hover{
+    text-decoration: none;
+    color: rgb(21, 161, 80);
+}
+.green-btn{
+    background: rgb(34, 207, 106);
+    text-align: center;
+    color: #fff;
+    font-size: .7rem;
+    outline: none;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 5px 20px;
+    border-radius: 4px;
+    transition: 0.5s;
+  }
+.green-btn :hover{
+    text-decoration: none;
+}
+
+/*--------------QUESTIONS----------*/
+
+.profile{
+    width: 30px;
+    border-radius: 50%;
+}
+.card{
+    padding: 30px;
+}
+.a{
+    color: rgb(158, 156, 15);
+    font-weight: bold;
+}
+.a :hover{
+    text-decoration: none;
+    color: rgb(158, 156, 15);
+}
+
+/*--------CATEGORIES---------*/
+.categories img{
+    width: 30%;
+}
+.categories{
+    background-color: white;
+    padding: 0px;
+    
+}
+.category-head{
+    background-color: rgb(34, 207, 106);
+    width: 100%;
+    padding: 1em;
+    color: white;
+}
+
+/*--------SIGN UP---------*/
+.form-horizontal{
+    background: white;
+    padding: 50px;
+}
+.main-btn{
+    background: rgb(228, 224, 8);
+    text-align: center;
+    color: #fff;
+    font-size: .8rem;
+    outline: none;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 10px 32px;
+    border-radius: 4px;
+    transition: 0.5s;
+  }
+  .main-btn:hover{
+    color: #fff;
+    text-decoration: none;
+  }
+  .normal-link{
+      font-weight: bold;
+  }
+
+  /*========== Profile Page ===============*/
+.profile-image{
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  height: 200px;
+  width: 200px;
+}
+.btn-file input[type="file"]{
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  opacity : 0;
+  outline: none;
+  cursor: inherit;
+  display: block;
+}
+.btn-file{
+  position: relative;
+  overflow: hidden;
+  background: #237BBD;
+  color: #ffffff;
+}
+.btn-file:hover{
+  text-decoration: none;
+  color: #ffffff;
+}
+
+/*=========TodoList=============*/
+.todo-box{
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+.todo-box p{
+  margin: 0;
+  padding: 0;
+}
+.todo-box .date{
+  font-weight: 600;
+  text-decoration: underline;
+}
+.font-bold{
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+  /*============ DASHBOARD NAV ==================*/
+.navbar-head{
+  background: #f0f0f0;
+  transition: all 0.5s;
+  padding: 5px 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 997;
+}
+.logo{
+  color: rgb(34, 207, 106);
+  font-size: 25px;
+}
+.logo :hover{
+  text-decoration: none;
+  color: rgb(21, 161, 80);
+}
+.dash-logo{
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-style: italic;
+  color: #413e66;
+}
+.navbar-brand:hover{
+  color: #413e66 !important;
+}
+.menu-cust *{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.menu-cust > ul > li {
+  position: relative;
+  white-space: nowrap;
+  float: left;
+}
+.menu-cust a {
+  display: block;
+  padding: 0 15px;
+  transition: 0.3s;
+  color: #413e66;
+  padding-top: 5px;
+}
+.menu-cust a:hover,
+.menu-cust .active > a {
+  color: #413e66;
+  text-decoration: none;
+}
+.menu-cust a i{
+  font-size: 1.2rem;
+  padding-top: 4px;
+}
+.dropdown-menu{
+  margin-top: 20px;
+  margin-right: 20px;
+}
+.dropdown-menu a{
+  padding: 10px 80px 10px 10px;
+  color: #413e66;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: .9rem;
+  font-style: italic;
+}
+.dropdown-menu a:last-child{
+  border: none;
+}
+.main{
+  margin-top: 45px;
+}
+.border-left-dash{
+  border-left: 0.25rem solid #722F37;
+}
+.dash-head{
+  font-size: 1.3rem;
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+.dash-link{
+  color: #413e66;
+}
+.dash-link:hover{
+  text-decoration: none;
+  color: #413e66;
+}
+.second-menu{
+  background: #237BBD;
+  padding: 15px 0;
+  height: 50px;
+}
+.second-menu p {
+  font-style: italic;
+  color: #ffffff;
+}
+.second-menu a{
+  color: #413e66;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: .9rem;
+}
+.second-menu a:hover{
+  text-decoration: none;
+}
+
+
+  textarea{
+    width: 100%;
+    height: 100px;
+  }
+
+.navlogo{
+    color: rgb(34, 207, 106);
+    font-size: 30px;
+    font-weight: 700;
+}
+.navlogo :hover{
+    text-decoration: none;
+    color: rgb(21, 161, 80);
+}
+
+.h4{
+  color: black;
+}
+.h4 :hover{
+  text-decoration: none;
+  color: rgb(34, 207, 106);
+}

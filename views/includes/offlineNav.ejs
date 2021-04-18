@@ -1,0 +1,50 @@
+<header id="header">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h3>Welcome <b>Guest</b> to <span class="logo1"><a href="/" class="logo1"><i class="fa fa-quora"></i>uest-Land</a></span></h3>
+                <h1> The Social Q&A Community</h1>
+                <p>The question and answer site designed to help people, to help each other: To ask, to ask, to learn, to share, to grow.</p>
+                <p>Are you a member already, <span class="green-btn"><a href="/login" class="green-btn">Sign in</a></span> to ask a question, else <span class="green-btn"><a href="/confirm-email" class="green-btn" data-toggle="modal" data-target="#completeModal">Sign Up</a></span></p>
+                <div class="modal fade" id="completeModal" tabindex="-1" role="dialog" aria-labelledby="completeLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="completeLabel">Are you sure?</h5> 
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span> 
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" class="form-horizontal">
+                                    <div>
+                                        <h3 class="text-center">Enter your email</h3>
+                                        <input type="email" class="form-control map-form filler" name="email" id="email" />
+                                    </div>
+                                
+                                    <div class="text-center mt-3">
+                                        <input type="submit" class="main-btn map-form" id="submit" value="Submit">
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <% if(success) { %>
+            <% if(success.length != 0) { %>
+                <div class="alert alert-success alert-dismissible fade-in" role="alert">
+                    <button class="close" type="button" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <span><%= success %></span>
+                </div>  
+            <% } %> 
+        <% } %>
+
+    </div>
+</header>

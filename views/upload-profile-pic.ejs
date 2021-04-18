@@ -1,0 +1,48 @@
+<%- include('includes/header') -%>
+    <body>
+        
+    
+        <div class="container pt-4 body">
+            <form method="POST" enctype="multipart/form-data">
+                <h4 class="text-center">Upload a profile picture</h4>
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <% if (locals.user.profilePhoto) { %>
+                            <% let imageUrl = "/profile/" + user.profilePhoto %>
+                            <img class="profile-image" alt="Picture" src="<%= imageUrl %>" />
+                        <% }else{ %>
+                            <% if (locals.user.gender === 'Male') { %>
+                                <img class="profile-image" alt="Picture" src="/profile/default-avatar.png" />
+                            <% }else{ %>
+                                <img class="profile-image" alt="Picture" src="/profile/female-avatar.png" />
+                            <% } %>
+                        <% } %>
+                        <div class="mt-2">
+                            <label class="btn btn-file">
+                                <i class="fa fa-cloud-upload-alt pr-2"></i>
+                                Select picture
+                                <input type="file" onchange="handleFiles(this.files)" name="picture" id="picture" accept="image/*" />
+                            </label>
+
+                            
+                        </div> 
+                    </div>
+        
+                    <div class="text-center">
+                        <hr/ >
+                        <input type="submit" value="Update" class="main-btn">
+                        <% if(locals.message) { %>
+                                <p> <%= message %>
+                        <% }%>
+                        <span><a href="/" class="green-btn">Skip</a></span>
+                    </div>
+                </div>
+            </form>
+    
+        </div>
+            
+        <script src="/javascripts/uploads.js"></script>            
+        <%- include('includes/footer') -%>
+</body>
+</html>
+                

@@ -1,0 +1,80 @@
+<%- include('includes/header') -%>
+    <body>
+        <%- include('includes/navbar') -%>
+    
+        <div class="container pt-4 body">
+            <form method="post" enctype="multipart/form-data">
+                <h4>Your Details :</h4>
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <% if (locals.user.profilePhoto) { %>
+                            <% let imageUrl = "/profile/" + user.profilePhoto %>
+                            <img class="profile-image" alt="Picture" src="<%= imageUrl %>" />
+                        <% }else{ %>
+                            <% if (locals.user.gender === 'Male') { %>
+                                <img class="profile-image" alt="Picture" src="/profile/default-avatar.png" />
+                            <% }else{ %>
+                                <img class="profile-image" alt="Picture" src="/profile/female-avatar.png" />
+                            <% } %>
+                        <% } %>
+                        <div class="mt-2">
+                            <label class="btn btn-file">
+                                <i class="fa fa-cloud-upload-alt pr-2"></i>
+                                Change Image
+                                <input type="file" onchange="handleFiles(this.files)" name="picture" id="picture" accept="image/*" />
+                            </label>
+                        </div> 
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="label">First Name :</label>
+                                <input type="text" name="firstName" class="form-control" value="<%= user.firstName %>" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="label">Last Name :</label>
+                                <input type="text" name="lastName" class="form-control" value="<%= user.lastName %>" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="label">Username :</label>
+                                <input type="text" name="username" class="form-control" value="<%= user.username %>" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="label">Mobile Number :</label>
+                                <input type="text" name="mobile" class="form-control map-form" value="<%= user.mobile %>" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="gender" class="label">Gender :</label>
+                                <select name="gender" id="gender" class="form-control map-form custom-select" value="<%= user.gender %>" >
+                                    <option value="<%= user.gender %>" selected><%= user.gender %></option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="state" class="label">State : </label>
+                                <select name="state" class="form-control custom-select map-form" name="state" id="state">
+                                    <option value="<%= user.state %>" selected><%= user.state %></option> 
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <hr/ >
+                        <input type="submit" value="Update Changes" class="main-btn">
+                    <% if(locals.message) { %>
+                            <p> <%= message %>
+                    <% }%>
+                </div>
+            </form>
+    
+        </div>
+            
+        <script src="/javascripts/profile.js" type="module"></script> 
+        <script src="/javascripts/uploads.js"></script>          
+        <%- include('includes/footer') -%>
+</body>
+</html>
+                

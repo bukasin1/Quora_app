@@ -1,0 +1,91 @@
+<%- include('includes/header') -%>
+    <body>
+        <%- include('includes/navbar') -%>
+    
+        <div class="container pt-4 body">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    
+                    <% if(userQuestions.length > 0) { %>
+                        <% for(let i = 0; i < userQuestions.length; i++) { %>
+                            <div class="todo-box mb-1">
+                                <% let date = userQuestions[i].date.getDate() + "/" + (userQuestions[i].date.getMonth() + 1) + "/" + userQuestions[i].date.getFullYear() %>
+                                <p class="date"><%= date %></p>
+                                <div class="float-left">
+                                    <p><%= userQuestions[i].title %></p>
+                                </div>
+                                <% let deleteAnswer = "/my-questions" + "/" + userQuestions[i]._id + "/delete" %>
+                                <div class="float-right">
+                                    <a href="<%= deleteAnswer %>" class="float-right orange-btn">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                                <div class="float-right mr-2">
+                                    <% let link = "/" + user.username + "/" + userQuestions[i]._id  %>
+                                    <a href="<%= link %>" class="green-btn">
+                                        View
+                                    </a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        <% } %>
+                    <% }else { %>
+                        <h3 class="text-center mt-5">You have no questions created yet</h3>
+                    <% } %>
+                   
+                </div>
+    
+                <div class="col-md-4 mb-4">
+                    <div class="col-md-12 categories">
+                        <div class="category-head" >
+                            <span class="all_topics"> All categories</span></br>
+                            <span > <%= questions.length%> Questions</span>
+                        </div>
+                        <% categories.map(category =>{ %>
+                            <div class="all_list">
+                                <% let categoryUrl = '/questions/' + category.name %>
+                                <a class="list_cap" href="<%= categoryUrl%>">
+                                <% if(category.name === "Technology"){ %>
+                                    <img src="images/tech.jpg" class="float-left">
+                                <% }else if(category.name === "Science"){ %>
+                                    <img src="images/science.jpg" class="float-left">
+                                <% }else if(category.name === "Health"){ %>
+                                    <img src="images/health.jpg" class="float-left">
+                                <% }else if(category.name === "Education"){ %>
+                                    <img src="images/education.jpg" class="float-left">
+                                <% }else if(category.name === "Entertainment"){ %>
+                                    <img src="images/entertainment.jpg" class="float-left">
+                                <% }else if(category.name === "Investing"){ %>
+                                    <img src="images/investing.jpg" class="float-left">
+                                <% }else if(category.name === "Others"){ %>
+                                    <img src="images/post1.jpg" class="float-left">
+                                <% } %>
+                                
+                                <div class="list_content float-left ml-3 mt-3">
+                                    <span class="a"><%= category.name%></span> </br>
+                                    <% let categoryQuestions = [] %>
+                                    <% questions.map(question => { %>
+                                        <% if(question.category === category.name){ %>
+                                            <% categoryQuestions.push(question) %>
+                                        <% } %>
+                                    <% }) %>
+                                    <span class="topic_counter" href="#"> <%= categoryQuestions.length%> Questions</span> </br>
+                                </div>
+                                </a>
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr>
+                        <% }) %>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+        </div>
+            
+                    
+        <%- include('includes/footer') -%>
+</body>
+</html>
+                

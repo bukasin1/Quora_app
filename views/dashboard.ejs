@@ -1,0 +1,112 @@
+<%- include('includes/header') -%>
+    <body>
+        <%- include('includes/navbar') -%>
+    
+        <div class="container pt-4 body">
+            <div class="row justify-content-center">
+                <div class="col-md-8 Questions">
+                    
+                    <% if (locals.questions.length != 0) { %>
+                           
+                        <div class="text-center mb-5"><h1>Recently asked Questions</h1></div>
+                        <% let reverseQuest = [] %>
+                        <% let j = questions.length - 1 %>
+                        <% for (let i of Object.keys(questions)) { %>
+                            <% reverseQuest[i] = questions[j] %>
+                            <% j -= 1 %>
+                        <% } %>
+                        <% for (let i of Object.keys(reverseQuest)) { %>
+                            <div class="card mb-4" >
+                                <% let month = reverseQuest[i].date.getMonth() + 1 %>
+                                <% let realDate = reverseQuest[i].date.getDate() + '/' + month + '/' + reverseQuest[i].date.getFullYear() %>
+                                <!-- <% let user = USERS.find(USER => USER._id === questions[i].user) %>
+                                <% console.log(user) %> -->
+                                <% let fullName = 'test' %>
+                                <% let use = 'test' %>
+                                <% USERS.forEach(USER => { %>
+                                    <% if(USER.email === reverseQuest[i].user){ %>
+                                        <% fullName = USER.lastName + ' ' + USER.firstName %>
+                                        <% use = USER %>
+                                    <% } %>
+                                <% }) %>
+                                <% let profileUrl = "/profile/" + use._id %>
+                                <p><span class="a"><a href="<%= profileUrl %>" class="a">
+                                    <% if (use.profilePhoto) { %>
+                                        <% let imageUrl = "/profile/" + use.profilePhoto %>
+                                        <img alt="Picture" src="<%= imageUrl %>" class="rounded-circle" width="25" height="25" />
+                                    <% }else{ %>
+                                        <% if (use.gender === 'Male') { %>
+                                            <img alt="Picture" src="/profile/default-avatar.png" class="rounded-circle" width="25" height="25" />
+                                        <% }else{ %>
+                                            <img alt="Picture" src="/profile/female-avatar.png" class="rounded-circle" width="25" height="25" />
+                                        <% } %>
+                                    <% } %>
+                                    <%= fullName %></a></span> <%= realDate %>
+                                </p>
+                                <% let link = "/" + use.username + "/" + reverseQuest[i]._id  %>
+                                <h4 class="h4"><a href="<%= link %>" class="h4"><%= reverseQuest[i].title %></a></h4>
+                                <p><%= reverseQuest[i].details %></p>
+                                
+                            <a href="<%= link %>" class="green-btn">View question and make a contribution</a>
+                            </div>
+                        <% } %>  
+                    <% }else{ %>
+                        <h3 class="text-center mt-5">No Questions asked yet</h3>
+                    <% } %>
+                    
+                </div>
+    
+                <div class="col-md-4 mb-4">
+                    <div class="col-md-12 categories">
+                        <div class="category-head" >
+                            <span class="all_topics"> All categories</span></br>
+                            <span > <%= questions.length%> Questions</span>
+                        </div>
+                        <% categories.map(category =>{ %>
+                            <div class="all_list">
+                                <% let categoryUrl = '/questions/' + category %>
+                                <a class="list_cap" href="<%= categoryUrl%>">
+                                <% if(category === "Technology"){ %>
+                                    <img src="/images/tech.jpg" class="float-left">
+                                <% }else if(category === "Science"){ %>
+                                    <img src="/images/science.jpg" class="float-left">
+                                <% }else if(category === "Health"){ %>
+                                    <img src="/images/health.jpg" class="float-left">
+                                <% }else if(category === "Education"){ %>
+                                    <img src="/images/education.jpg" class="float-left">
+                                <% }else if(category === "Entertainment"){ %>
+                                    <img src="/images/entertainment.jpg" class="float-left">
+                                <% }else if(category === "Investing"){ %>
+                                    <img src="/images/investing.jpg" class="float-left">
+                                <% }else if(category === "Others"){ %>
+                                    <img src="/images/post1.jpg" class="float-left">
+                                <% } %>
+                                
+                                <div class="list_content float-left ml-3 mt-3">
+                                    <span class="a"><%= category%></span> </br>
+                                    <% let categoryQuestions = [] %>
+                                    <% questions.map(question => { %>
+                                        <% if(question.category === category){ %>
+                                            <% categoryQuestions.push(question) %>
+                                        <% } %>
+                                    <% }) %>
+                                    <span class="topic_counter"> <%= categoryQuestions.length%> Questions</span> </br>
+                                </div>
+                                </a>
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr>
+                        <% }) %>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+        </div>
+            
+                    
+        <%- include('includes/footer') -%>
+</body>
+</html>
+                

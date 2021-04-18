@@ -1,0 +1,84 @@
+<%- include('includes/header') -%>
+<body class="signup-bg">
+    <section id="signup">
+        <div class="container mt-3">
+            <div class="row justify-content-center">
+                <div class="col-md-8 mt-5">
+                    <form method="POST" class="form-horizontal">
+                        <a class="dropdown-item" href="/logout">
+                            <i class="fa fa-arrow-left mr-1"></i> 
+                            Cancel
+                        </a> 
+                        <h3 class="text-center">Create an account</h3>
+                        <hr />
+                        <%if (locals.error) { %>
+                            <p class="text-center err"><%= error %></p>
+                        <% } %>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="label">First Name :</label>
+                                <input type="text" class="form-control map-form filler" name="firstName" id="firstName" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="label">Last Name :</label>
+                                <input type="text" class="form-control map-form filler" name="lastName" id="lastName" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="label">Username :</label>
+                                <input type="text" class="form-control map-form filler" name="username" id="username" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="dob" class="label">Date of Birth :</label>
+                                <input type="date" class="form-control map-form filler" name="dob" id="dob" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="label">Password :</label>
+                                <input type="password" class="form-control map-form filler" name="password" id="password" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cPassword" class="label">Confirm Password :</label>
+                                <input type="password" class="form-control map-form filler" name="cPassword" id="cPassword" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="mobile" class="label">Mobile :</label>
+                                <input type="tel" class="form-control map-form filler" name="mobile" id="mobile" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="gender" class="label">Gender :</label>
+                                <select name="gender" id="gender" class="form-control map-form custom-select">
+                                    <option value="" disabled="disabled" selected>---------</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="state" class="label">State : </label>
+                                <select class="form-control custom-select map-form" name="state" id="state">
+                                    <option value="" selected disabled="disabled">--------</option> 
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <input type="checkbox" id="agreement">
+                                <span>I've read the terms and conditions.</span>
+                            </div>
+                            <div class="col-md-12 mb-3 text-center">
+                                <input type="submit" class="main-btn map-form" id="submit" value="Sign Up">
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <a href="/login" class="normal-link">Login?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+
+    <script src="/javascripts/registration.js" type="module"></script>           
+    <%- include('includes/footer') -%>
+</body>
+</html>
+                
