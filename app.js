@@ -16,7 +16,7 @@ var app = express();
 
 //Database Session
 const store = new MongoDBStore({
-  uri :"mongodb://127.0.0.1:27017/quora", 
+  uri :process.env.MONGODB_URI, 
   collection : "sessions"
 })
 
@@ -36,7 +36,7 @@ app.use(session({
 
 // Database Connection
 const CONFIG = { 
-	uri : "mongodb://127.0.0.1:27017/quora" , 
+	uri : process.env.MONGODB_URI , 
   OPTIONS : { 
     useNewUrlParser : true , 
     useCreateIndex : true , 
