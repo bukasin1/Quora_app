@@ -16,7 +16,7 @@ var app = express();
 
 //Database Session
 const store = new MongoDBStore({
-  uri :process.env.MONGODB_URI, 
+  uri :"mongodb+srv://buks:<password>@quora-app.5bzxv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", 
   collection : "sessions"
 })
 
@@ -36,7 +36,7 @@ app.use(session({
 
 // Database Connection
 const CONFIG = { 
-	uri : process.env.MONGODB_URI , 
+	uri : "mongodb+srv://buks:<password>@quora-app.5bzxv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" , 
   OPTIONS : { 
     useNewUrlParser : true , 
     useCreateIndex : true , 
