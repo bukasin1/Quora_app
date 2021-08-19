@@ -1,4 +1,4 @@
-
+var express = require('express')
 const User = require('../model/user')
 const Question = require('../model/question')
 const Categories = require('../model/categories')
@@ -13,21 +13,31 @@ class App {
     getIndex = async(req, res, next) => {
         try{
             if(req.session.email){
+              console.log("session.email exists!!!!!")
                 const user = await User.findOne({email : req.session.email})
                 const USER = await User.find()
                 const question = await Question.find()
                 const categories = await Categories.find()
                 res.render('index', {title : "Dashboard", user : user , USERS : USER , questions : question , categories : categories})
             }else{
+              console.log("\n\nelse doesn't exit...")
                 const USER = await User.find()
+                console.log("USER: ",USER);
                 const question = await Question.find()
+                console.log("QUESTION: ", question)
                 const categories = await Categories.find()
-                res.render('index', {title : "Quest-land", success : req.flash('success') , USERS : USER , questions : question , categories : categories})
+                console.log("CATEGORIES: ", categories);
+                
+                   res.render('scape');
+                // res.render('index', {title : "Quest-land", success : req.flash('success') , USERS : USER , questions : question , categories : categories})
             }
 
         }catch(err){
             res.send(err)
         }
+        // res.json({
+        //   "info":"Successfull!"
+        // })
     }
 
     getMailConfirmation = async(req, res, next) => {
