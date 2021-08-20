@@ -1,4 +1,3 @@
-
 const User = require('../model/user')
 const Question = require('../model/question')
 const Categories = require('../model/categories')

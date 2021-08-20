@@ -1,11 +1,5 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
 var app = require('../app');
-
+console.log("kayode see=> ", app);
 var debug = require('debug')('quora-app:server');
 var http = require('http');
 
