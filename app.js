@@ -20,23 +20,23 @@ var app = express();
 
 
 //Database Session
-const store = new MongoDBStore({
-  uri :process.env.MONGODB_URI, 
-  collection : "sessions"
-})
+// const store = new MongoDBStore({
+//   uri :process.env.MONGODB_URI, 
+//   collection : "sessions"
+// })
 
 app.use(session({
-	cookie : {
-		maxAge : 864e5
-	} , 
+	// cookie : {
+	// 	maxAge : 864e5
+	// } , 
 	secret : process.env.SESSION_SECRET ,   
-  resave : false , 
-  store : store , 
-	saveUninitialized : true , 
-	unset : "destroy" , 
-	genid : (req) => {
-		return req.url
-	}
+  // resave : false , 
+  // store : store , 
+	// saveUninitialized : true , 
+	// unset : "destroy" , 
+	// genid : (req) => {
+	// 	return req.url
+	// }
 }))
 
 // Database Connection

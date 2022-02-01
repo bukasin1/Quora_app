@@ -13,6 +13,9 @@ router.get('/login', IndexController.getLogin);
 router.post('/login', IndexController.postLogin);
 router.post('/login-signUp' , IndexController.postMailConfirmation)
 router.get('/confirm-email', IndexController.getMailConfirmation);
+router.post('/forgot-password', IndexController.forgotPassword)
+router.get('/resetPassword/:token', IndexController.getResetPassword)
+router.post('/resetPassword/:token', IndexController.postResetPassword)
 router.post('/', IndexController.postMailConfirmation);
 router.get('/signup/:mail', IndexController.getSignup);
 router.post('/signup/:mail', IndexController.postSignup);
