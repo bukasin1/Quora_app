@@ -7,6 +7,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
+const cookieSession = require('cookie-session')
 const mongoose = require("mongoose");
 const dotenv   = require("dotenv").config();
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -26,9 +27,9 @@ var app = express();
 // })
 
 app.use(session({
-	// cookie : {
-	// 	maxAge : 864e5
-	// } , 
+	cookie : {
+		maxAge : 864e5
+	} , 
 	secret : process.env.SESSION_SECRET ,   
   // resave : false , 
   // store : store , 

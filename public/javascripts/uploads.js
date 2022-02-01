@@ -1,12 +1,12 @@
-  let img = document.querySelector('.profile-image')
-  function previewFile(file) {
+let img = document.querySelector('.profile-image')
+function previewFile(file) {
     let reader = new FileReader()
     reader.readAsDataURL(file)
-    reader.onloadend = function() {
-        
-        
-            img.src = reader.result
-        
+    reader.onloadend = function () {
+
+
+        img.src = reader.result
+
     }
 }
 
@@ -14,24 +14,24 @@ function handleFiles(files) {
     files = [...files]
     /* files.forEach(uploadFile) */
     files.forEach(previewFile)
-/*     if(files.length > 5){
-        let gallery = document.getElementById("gallery")
-        console.log(gallery) 
-        let submit = document.getElementById('submit')
-        submit.addEventListener('click' , e => {
-            e.preventDefault()
-            let para = document.createElement('p')
-            para.textContent = "You can not upload more than 5 files at once"
-            gallery.appendChild(para)
-        })   
-    } */
+    /*     if(files.length > 5){
+            let gallery = document.getElementById("gallery")
+            console.log(gallery) 
+            let submit = document.getElementById('submit')
+            submit.addEventListener('click' , e => {
+                e.preventDefault()
+                let para = document.createElement('p')
+                para.textContent = "You can not upload more than 5 files at once"
+                gallery.appendChild(para)
+            })   
+        } */
 }
 
 /* function uploadFile(file, i) { 
     var url = '/'
     var xhr = new XMLHttpRequest()
     var formData = new FormData()
-		
+    	
     xhr.open('POST', url, true)
 
     // Add following event listener
@@ -50,10 +50,9 @@ function handleFiles(files) {
     xhr.send(formData)
 } */
 
-  
-  
-  
-  
 
-  
-  
+
+
+
+
+

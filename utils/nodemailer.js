@@ -19,9 +19,9 @@ const sendMail = async(to, subject, body) => {
       html: body,
     };
     const mailDetails = await transporter.sendMail(mailOptions);
-    return { mailDetails }
+    return mailDetails
   }catch(error){
-    return { mailDetails, error }
+    return { error }
   }
 };
 module.exports =  sendMail;

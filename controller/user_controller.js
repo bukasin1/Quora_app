@@ -158,7 +158,8 @@ class App {
                 throw new Error("Problem signing out. We will handle this shortly")
             }
         }catch(error) {
-            res.status(400).send(error)
+            console.log(error, 'error logging out')
+            res.redirect(303 , '/')
         }
     }
 

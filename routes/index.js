@@ -35,5 +35,7 @@ router.get('/my-questions/:questionID/delete', QuestionController.deleteQuestion
 router.get('/:userName/:questionID', QuestionController.getSingleQuestion);
 router.post('/:userName/:questionID', QuestionController.postSingleQuestion);
 router.get('/:userName/:questionID/:answerID/delete', QuestionController.deleteAnswer);
+router.get('/settings', UserController.getSettings)
+// router.get()
 
 module.exports = router;

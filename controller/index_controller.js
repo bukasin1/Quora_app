@@ -163,10 +163,10 @@ class App {
                     req.session.email = user.email
                     res.redirect(303, '/')
                 } else {
-                    res.render('login', { title: "Login to your account", error: 'Invalid Login details' })
+                    res.render('login', { title: "Login to your account", error: 'Invalid Login details', success: req.flash('success') })
                 }
             } catch (errors) {
-                res.render('login', { title: "Login to your account", error: 'Invaid Login details' })
+                res.render('login', { title: "Login to your account", error: 'Invaid Login details', success: req.flash('success') })
             }
         }
     ]
@@ -176,21 +176,27 @@ class App {
             .withMessage('Please , provide a valid email '),
         async (req, res) => {
             try {
-                const { email } = req.body
-                const user = await User.findOne({ email: email })
-                if (user) {
-                    let secret = process.env.SECRET_KEY
-                    const token = jwt.sign({ id: user._id }, secret, { expiresIn: '30mins' });
-                    const link = `${process.env.SITE_URL}/resetPassword/${token}`
-                    const body = `
-                  Dear ${user.fullname},
-                  <p>Follow this <a href=${link}> link </a> to change your password. The link would expire in 30 mins.</P>
-                        `
-                    const mailResp = await sendMail(email, "Reset Password", body)
-                    console.log(mailResp, "mail response")
-                    req.flash('success', "Check your email for link to reset your password!")
+                const errors = validationResult(req)
+                if (errors.isEmpty()) {
+                    const { email } = req.body
+                    const user = await User.findOne({ email: email })
+                    if (user) {
+                        let secret = process.env.SECRET_KEY
+                        const token = jwt.sign({ id: user._id }, secret, { expiresIn: '30mins' });
+                        const link = `${process.env.SITE_URL}/resetPassword/${token}`
+                        const body = `
+                    Dear ${user.firstName},
+                    <p>Follow this <a href=${link}> link </a> to change your password. The link would expire in 30 mins.</P>
+                            `
+                        const mailResp = await sendMail(email, "Reset Password", body)
+                        console.log(mailResp, "mail response")
+                        if(!mailResp.error) req.flash('success', "Check your email for link to reset your password!")
+                        else req.flash('success', "Error occured")
+                    } else {
+                        req.flash('success', "Email not registered yet")
+                    }
                 } else {
-                    req.flash('success', "Please provide a valid email")
+                    req.flash('success', errors.errors.slice(-1)[0].msg)
                 }
                 res.redirect('/login')
             } catch (error) {
@@ -207,72 +213,67 @@ class App {
             let { token } = req.params
             console.log(token, "token-verify")
             let secret = process.env.SECRET_KEY
-            const verification = await jwt.verify(token, secret)///verification
+            const verification = jwt.verify(token, secret)///verification
             console.log(verification, "verification")
             const id = verification.id
             const isValidId = User.findOne({ _id: id })
-        
+
             if (isValidId) {
                 //line missing?
                 token = jwt.sign({ id: id }, secret, { expiresIn: '1d' })
-                res.render("reset-password", {
-                    title: "Reset-Password",
-                    token: token, success: req.flash('success')
-                })
+                res.render("reset-password", { title: "Reset-Password", token: token, success: req.flash('success') })
             }
         } catch (err) {
             console.log(err, "error")
-                req.flash('success', "Link Expired!!")
-                res.redirect('/login')
+            req.flash('success', "Link Expired!!")
+            res.redirect('/login')
         }
     }
 
-    postResetPassword = async(req, res) => { //post
+    postResetPassword = async (req, res) => { //post
         const { token } = req.params
         console.log(token, "token-reset")
         try {
-          // res.json(req.params)
-          let secret = process.env.SECRET_KEY
-          const verification = jwt.verify(token, secret)
-          const id = verification.id
-          if (verification) {
-            const user = await User.findOne({ _id: id })
-            if (user) {
-              let { newPassword, repeatPassword } = req.body
-              if (newPassword === repeatPassword) {
-                newPassword = await bcrypt.hash(newPassword, 10);
-                const updatedUser = await User.findOneAndUpdate({ _id: id }, { password: newPassword }, { new: true })
-                req.flash('success', "Password resetted, login with new password")
-                res.redirect('/login')
-                return;
-              } else {
-                res.status(400).json({
-                  message: "newpassword and repeatpassword don't match"
-                })
-                return;
-              }
-            } else {
-              res.status(400).json({
-                message: "user does not exist"
-              })
-              return;
+            // res.json(req.params)
+            let secret = process.env.SECRET_KEY
+            const verification = jwt.verify(token, secret)
+            const id = verification.id
+            if (verification) {
+                const user = await User.findOne({ _id: id })
+                if (user) {
+                    let { newPassword, repeatPassword } = req.body
+                    if (newPassword === repeatPassword) {
+                        newPassword = await bcrypt.hash(newPassword, 10);
+                        const updatedUser = await User.findOneAndUpdate({ _id: id }, { password: newPassword }, { new: true })
+                        req.flash('success', "Password resetted, login with new password")
+                        res.redirect('/login')
+                        return;
+                    } else {
+                        res.render("reset-password", { title: "Reset-Password", token: token, error: "Passwords don't match", success: req.flash('success') })
+                        // req.flash('success', "newpassword and repeatpassword don't match")
+                        // res.redirect(`/resetPassword/${token}`)
+                        return;
+                    }
+                } else {
+                    // res.render("reset-password", { title: "Reset-Password", token: token, error: "Broken link!", success: req.flash('success') })
+                    req.flash('success', "Broken link!")
+                    res.redirect(`/resetPassword/${token}`)
+                    return;
+                }
             }
-          }
-          else {
-            res.status(400).json({
-              message: "verification error"
-            })
-            return;
-          }
+            else {
+                // res.render("reset-password", { title: "Reset-Password", token: token, error: "Broken link!", success: req.flash('success') })
+                req.flash('success', "Broken link!")
+                res.redirect(`/resetPassword/${token}`)
+                return;
+            }
         } catch (err) {
-          res.status(400).json({
-            message: "This is the catch block message",
-            // message: "Catch block",
-            error: err.message
-          })
-          return;
+            // res.render("reset-password", { title: "Reset-Password", token: token, error: "Broken link!", success: req.flash('success') })
+            req.flash('success', "Broken link!")
+            res.redirect(`/resetPassword/${token}`)
+            return;
         }
-      }
+    }
 
 }
 
