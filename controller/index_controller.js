@@ -14,11 +14,22 @@ class App {
     getIndex = async (req, res, next) => {
         try {
             if (req.session.email) {
+                console.log("NEtered index")
+                let success = "", link
                 const user = await User.findOne({ email: req.session.email })
                 const USER = await User.find()
                 const question = await Question.find()
                 const categories = await Categories.find()
-                res.render('index', { title: "Dashboard", user: user, USERS: USER, questions: question, categories: categories })
+                if(!user.verified){
+                    link = `${process.env.SITE_URL}/sendConfirmationMail`
+                    success = "Email not verified yet"
+                    console.log(success, "unverifies entered")
+                    // console.log(req.flash("success").toString().length, "flash success", req.flash("success").toString().length, typeof req.flash("success").toString(), `This is flash: ${req.flash("success").toString()}` )
+                    success = req.flash("success").toString()
+                    if(success.length <= 0) success = "Email not verified yet"
+                    console.log(success, "success sent")
+                }
+                res.render('index', { title: "Dashboard", user: user, USERS: USER, questions: question, categories: categories, success, link })
             } else {
                 const USER = await User.find()
                 const question = await Question.find()
@@ -28,6 +39,33 @@ class App {
 
         } catch (err) {
             res.send(err)
+        }
+    }
+
+    sendConfirmationMail = async(req, res) => {
+        try{
+            if(req.session.email){
+                const user = await User.findOne({ email: req.session.email })
+                let secret = process.env.SECRET_KEY
+                const token = jwt.sign({ id: user._id }, secret, { expiresIn: '60mins' });
+                const link = `${process.env.SITE_URL}/verifyEmail/${token}`
+                const body = `
+            Dear ${user.firstName},
+            <p>Welcome to Quest Land</P>
+            <p>Follow this <a href=${link}> link </a> to verify your email. Link expires in 1 hour</P>
+                    `
+                const mailResp = await sendMail(req.session.email, "Verify Email", body)
+                console.log(mailResp, "mail response")
+                if(!mailResp.error) req.flash('success', "Confirmation Email sent, check your email")
+                else req.flash('success', "Error occured somewhere")
+                res.redirect('/')
+            }else{
+                res.redirect('/login')
+            }
+        }catch(error){
+            console.log(err)
+            req.flash('success', "Error occured somewhere")
+            res.redirect('/')
         }
     }
 
@@ -61,7 +99,7 @@ class App {
                         res.redirect('/')
                     }
                 } else {
-                    req.session.email = req.body.email
+                    // req.session.email = req.body.email
                     res.redirect('/signup/' + req.body.email)
 
                 }
@@ -72,16 +110,16 @@ class App {
     ]
 
     getSignup = async (req, res, next) => {
-        if (req.session.email) {
+        // if (req.session.email) {
             const user = await User.findOne({ email: req.session.email })
             if (user) {
                 res.redirect('/')
             } else {
                 res.render('signup', { title: "Sign-up" })
             }
-        } else {
-            res.redirect('/login')
-        }
+        // } else {
+        //     res.redirect('/login')
+        // }
     }
 
     postSignup = [
@@ -99,7 +137,7 @@ class App {
             }),
         async (req, res, next) => {
             try {
-                if (req.session.email) {
+                // if (req.session.email) {
                     const errors = validationResult(req)
                     if (!errors.isEmpty()) {
                         //res.render('signup' , {errors : errors.array()}) 
@@ -110,7 +148,7 @@ class App {
                         const userPass = await bcrypt.hash(password, 10)
 
                         const user = new User({
-                            email: req.session.email,
+                            email: req.params.mail,
                             firstName: firstName,
                             lastName: lastName,
                             username: username,
@@ -123,7 +161,19 @@ class App {
 
                         let saveUser = user.save()
                         if (saveUser) {
-                            res.redirect('/upload-picture')
+                            let secret = process.env.SECRET_KEY
+                            const token = jwt.sign({ id: user._id }, secret, { expiresIn: '60mins' });
+                            const link = `${process.env.SITE_URL}/verifyEmail/${token}`
+                            const body = `
+                        Dear ${user.firstName},
+                        <p>Welcome to Quest Land</P>
+                        <p>Follow this <a href=${link}> link </a> to verify your email. Link expires in 1 hour</P>
+                                `
+                            const mailResp = await sendMail(req.params.mail, "Verify Email", body)
+                            console.log(mailResp, "mail response")
+                            if(!mailResp.error) req.flash('success', "Confirmation Email sent, check your email. Login to continue.")
+                            else req.flash('success', "Error occured")
+                            res.redirect('/login')
                         } else {
                             throw {
                                 message: "Unable to save."
@@ -131,14 +181,42 @@ class App {
                         }
 
                     }
-                } else {
-                    res.redirect('/login')
-                }
+                // } else {
+                //     res.redirect('/login')
+                // }
             } catch (err) {
-                res.send(err.message)
+                console.log(err)
+                req.flash('success', "Error occured")
+                res.redirect('/login')
             }
         }
     ]
+
+    verifyEmail = async (req, res) => {
+        try { //get
+
+            let { token } = req.params
+            console.log(token, "token-verify")
+            let secret = process.env.SECRET_KEY
+            const verification = jwt.verify(token, secret)///verification
+            console.log(verification, "verification")
+            const id = verification.id
+            const isValidId = await User.findOne({ _id: id })
+            console.log(isValidId, "user found")
+
+            if (isValidId) {
+                //line missing?
+                isValidId.verified = true
+                await isValidId.save()
+                req.flash('success', "Email verified!, login to continue.")
+                res.redirect('/login')
+            }
+        } catch (err) {
+            console.log(err, "error")
+            req.flash('success', "Link Expired!!")
+            res.redirect('/login')
+        }
+    }
 
     getLogin = (req, res, next) => {
         try {

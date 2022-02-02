@@ -62,6 +62,20 @@
 <header id="header" class="pb-3">
     <div class="container">
         <div class="row justify-content-center">
+            <% if(locals.success) { %>
+                <% if(success.length != 0) { %>
+                    <div class="alert alert-success alert-dismissible fade-in" role="alert">
+                        <button class="close" type="button" data-dismiss="alert" aria-label="close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <% if(success === "Email not verified yet"){ %>
+                            <span><%= success %>. Follow this <a href="<%= link%>">Link</a> confirm your email</span>
+                        <% }else{ %>
+                            <span><%= success %></span>
+                        <% } %>
+                    </div>  
+                <% } %> 
+            <% } %>
             <div class="col-md-8 text-center">
                 <% let profileUrl = "/profile/" + user._id %>
                 <h3>Hello <b class="a"><a href="<%= profileUrl%>" class="a"><%= user.username %></a></b>, welcome to <span class="logo"><a href="/" class="logo1"><i class="fa fa-quora"></i>uest-Land</a></span></h3>

@@ -17,6 +17,8 @@ router.post('/forgot-password', IndexController.forgotPassword)
 router.get('/resetPassword/:token', IndexController.getResetPassword)
 router.post('/resetPassword/:token', IndexController.postResetPassword)
 router.post('/', IndexController.postMailConfirmation);
+router.get('/verifyEmail/:token', IndexController.verifyEmail)
+router.get('/sendConfirmationMail', IndexController.sendConfirmationMail) 
 router.get('/signup/:mail', IndexController.getSignup);
 router.post('/signup/:mail', IndexController.postSignup);
 router.get('/upload-picture', UserController.getUploadPic);
@@ -37,5 +39,7 @@ router.post('/:userName/:questionID', QuestionController.postSingleQuestion);
 router.get('/:userName/:questionID/:answerID/delete', QuestionController.deleteAnswer);
 router.get('/settings', UserController.getSettings)
 // router.get()
+
+router.post('/create-cat', QuestionController.createCategory)
 
 module.exports = router;

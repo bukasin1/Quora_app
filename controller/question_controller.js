@@ -134,7 +134,7 @@ class App {
                             res.redirect('/')
                         }
                     }else{ 
-                            req.session.email = req.body.email
+                            // req.session.email = req.body.email
                             res.redirect('/signup/' + req.body.email)
                         
                     }
@@ -264,6 +264,22 @@ class App {
                 res.redirect('/diary')
             }
         })
+    }
+
+    createCategory = async(req, res) => {
+        try{
+            let catgEntry = new Categories ({
+                name : req.body.category
+            })
+            const saved = await catgEntry.save()
+            if(saved) res.status(200).json({
+                category: saved
+            })
+        }catch(error){
+            res.status(404).json({
+                error: "Error while saving"
+            })
+        }
     }
 }
 

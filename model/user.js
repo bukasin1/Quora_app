@@ -8,6 +8,10 @@ const userSchema = new Schema({
     dateOfBirth : Date,
     password : String,
     email : String,
+    verified : {
+        type: Boolean,
+        default: false
+    },
     mobile : String,
     gender : String,
     state : String,
