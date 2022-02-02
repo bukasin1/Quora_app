@@ -106,7 +106,7 @@
                                                         <% let profileUrl = "/profile/" + user2._id %>
                                                         <h5><span class="a"><a href="<%= profileUrl %>" class="a">
                                                             <% if (user2.profilePhoto) { %>
-                                                                <% let imageUrl = "/profile/" + use.profilePhoto %>
+                                                                <% let imageUrl = "/profile/" + user2.profilePhoto %>
                                                                 <img alt="Picture" src="<%= imageUrl %>" class="rounded-circle" width="25" height="25" />
                                                             <% }else{ %>
                                                                 <% if (user2.gender === 'Male') { %>

@@ -198,7 +198,7 @@ class App {
                     let catgEntry = new Categories ({
                         name : req.body.category
                     })
-                    catgEntry.save()
+                    await catgEntry.save()
                 }
                 entry = new Question ({
                     title : req.body.title,
@@ -213,7 +213,7 @@ class App {
                     let catgEntry = new Categories ({
                         name : req.body.category2
                     })
-                    catgEntry.save()
+                    await catgEntry.save()
                 }
                 entry = new Question ({
                     title : req.body.title,
@@ -223,7 +223,7 @@ class App {
                 })
                 console.log(categories)
             }
-            let saveDiary = entry.save()
+            let saveDiary = await entry.save()
             if(saveDiary){
                 res.redirect('/')
             }else{
