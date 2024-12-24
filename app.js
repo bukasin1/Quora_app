@@ -49,7 +49,8 @@ const CONFIG = {
     poolSize : 10 , 
     keepAlive : true , 
     useUnifiedTopology : true , 
-    keepAliveInitialDelay : 3e6
+    keepAliveInitialDelay : 3e6,
+    dbName: 'quora-app',
   }
 }
 
